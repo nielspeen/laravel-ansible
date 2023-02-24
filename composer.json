@@ -1,22 +1,26 @@
 {
-    "name": "asm/php-ansible",
-    "description": "A PHP wrapper for Ansible.",
+    "name": "nielspeen/laravel-ansible",
+    "description": "A Laravel wrapper for Ansible.",
     "keywords": [
-        "php",
+        "laravel",
         "ansible"
     ],
-    "homepage": "https://github.com/maschmann/php-ansible",
+    "homepage": "https://github.com/nielspeen/laravel-ansible",
     "type": "library",
     "license": "MIT",
     "authors": [
+	{
+		"name": "Niels Peen",
+		"email": "niels@peen.email"
+	},
         {
             "name": "Marc Aschmann",
             "email": "maschmann@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.0.0",
-        "psr/log": "^1.1",
+        "php": "^8.1.0",
+        "psr/log": "^3.0",
         "symfony/process": "^5.3|^6.0"
     },
     "require-dev": {
