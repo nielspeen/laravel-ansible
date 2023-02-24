@@ -1,18 +1,34 @@
-# php-ansible library
-![PHP8.0 build](https://github.com/maschmann/php-ansible/actions/workflows/static-analysis.yml/badge.svg)
-![PHP8.1 build](https://github.com/maschmann/php-ansible/actions/workflows/static-analysis-8-1.yml/badge.svg)
+# laravel-ansible
 
-This library is a OOP-wrapper for the ansible provisioning tool.
-I intend to use this library for a symfony2 bundle and also a deployment GUI, based on php/symfony2.
-The current implementation is feature-complete for the `ansible-playbook` and `ansible-galaxy` commands.
-
-
+This is a Laravel wrapper for the ansible provisioning tool. Currently supports the `ansible-playbook` and `ansible-galaxy` commands.
 
 ## Prerequisites
+ * Laravel 9
+ * Ansible (accessible and executable by your Laravel/webserver user)
 
-Your OS should be a flavor of linux and ansible has to be installed. It's easiest if ansible is in PATH :-)
-The library tries to find ansible-playbook and ansible-galaxy by itself or use the paths/executables you provide. 
+## Setup
 
+Install the example configuration file:
+`php artisan vendor:publish --tag=ansible-config`
+
+The configuration may contain multiple instances. For example:
+
+```
+"instances" => [
+        "default" => [
+            'playbooks_path' => resource_path('playbooks'),
+            'galaxy_command' => '/usr/bin/ansible-galaxy',
+            'playbook_command' => '/usr/bin/ansible-playbook',
+        ],
+        "legacy" => [
+            'playbooks_path' => resource_path('playbooks-legacy'),
+            'galaxy_command' => '/usr/local/ansible/legacy/ansible-galaxy',
+            'playbook_command' => '/usr/local/ansible/legacy/ansible-playbook-old',
+        ]
+    ]
+```
+
+Laravel Ansible defaults to the **default** instance when none is specified.
 
 ## Usage
 
@@ -185,7 +201,10 @@ The Next steps for implementation are:
 
 
 
-License
-----
+## License
 
-php-ansible is licensed under the MIT license. See the [LICENSE](LICENSE) for the full license text.
+laravel-ansible is licensed under the MIT license. See the [LICENSE](LICENSE) for the full license text.
+
+## Credits
+
+Based on [php-ansible](https://github.com/maschmann/php-ansible) [v4.0.0](https://github.com/maschmann/php-ansible/tree/v4.0.0) by [Marc Aschmann](https://github.com/maschmann).

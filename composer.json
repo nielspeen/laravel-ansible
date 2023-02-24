@@ -41,5 +41,16 @@
         "test": [
             "phpunit --configuration phpunit.xml.dist"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Peen\\Ansible\\AnsibleServiceProvider"
+            ],
+            "aliases": {
+                "AnsiblePlaybook": "Peen\\Ansible\\Facades\\AnsiblePlaybook",
+                "AnsibleGalaxy": "Peen\\Ansible\\Facades\\AnsibleGalaxy"
+            }
+        }
     }
 }
