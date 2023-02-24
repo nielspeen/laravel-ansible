@@ -12,7 +12,6 @@ use Peen\Ansible\Exception\CommandException;
 use Peen\Ansible\Process\ProcessBuilder;
 use Peen\Ansible\Process\ProcessBuilderInterface;
 use Peen\Ansible\Utils\Env;
-use JetBrains\PhpStorm\Pure;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
@@ -34,11 +33,6 @@ final class Ansible implements LoggerAwareInterface
 
     private int $timeout;
 
-    /**
-     * @param string $ansibleBaseDir base directory of ansible project structure
-     * @param string $playbookCommand path to playbook executable, default ansible-playbook
-     * @param string $galaxyCommand path to galaxy executable, default ansible-galaxy
-     */
     public function __construct(string $ansibleBaseDir, string $playbookCommand = '', string $galaxyCommand = '')
     {
         $this->ansibleBaseDir = $this->checkDir($ansibleBaseDir);
@@ -51,8 +45,6 @@ final class Ansible implements LoggerAwareInterface
 
     /**
      * AnsiblePlaybook instance creator
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function playbook(): AnsiblePlaybookInterface
     {
@@ -64,8 +56,6 @@ final class Ansible implements LoggerAwareInterface
 
     /**
      * AnsibleGalaxy instance creator
-     *
-     * @return AnsibleGalaxyInterface
      */
     public function galaxy(): AnsibleGalaxyInterface
     {
@@ -77,9 +67,6 @@ final class Ansible implements LoggerAwareInterface
 
     /**
      * Set process timeout in seconds.
-     *
-     * @param int $timeout
-     * @return Ansible
      */
     public function setTimeout(int $timeout): Ansible
     {
@@ -88,10 +75,6 @@ final class Ansible implements LoggerAwareInterface
         return $this;
     }
 
-    /**
-     * @param string $prefix base command
-     * @return ProcessBuilderInterface
-     */
     private function createProcess(string $prefix): ProcessBuilderInterface
     {
         $process = new ProcessBuilder($prefix, $this->ansibleBaseDir);
@@ -99,12 +82,6 @@ final class Ansible implements LoggerAwareInterface
         return $process->setTimeout($this->timeout);
     }
 
-    /**
-     * @param string $command
-     * @param string $default
-     * @return string
-     * @throws CommandException
-     */
     private function checkCommand(string $command, string $default): string
     {
         // normally ansible is in /usr/local/bin/*
@@ -133,11 +110,6 @@ final class Ansible implements LoggerAwareInterface
         return $command;
     }
 
-    /**
-     * @param string $dir directory to check
-     * @return string
-     * @throws CommandException
-     */
     private function checkDir(string $dir): string
     {
         if (!is_dir($dir)) {
@@ -147,10 +119,6 @@ final class Ansible implements LoggerAwareInterface
         return $dir;
     }
 
-    /**
-     * @param string $command
-     * @return bool
-     */
     private function isExecutable(string $command): bool
     {
         if (empty($command)) {

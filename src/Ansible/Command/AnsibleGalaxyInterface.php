@@ -65,23 +65,16 @@ interface AnsibleGalaxyInterface extends AnsibleCommandInterface
      *
      * The default is the roles_path configured in your
      * ansible.cfg file (/etc/ansible/roles if not configured).
-     *
-     * @param string $rolesPath
-     * @return AnsibleGalaxyInterface
      */
     public function rolesPath(string $rolesPath): AnsibleGalaxyInterface;
 
     /**
      * Ignore errors and continue with the next specified role.
-     *
-     * @return AnsibleGalaxyInterface
      */
     public function ignoreErrors(): AnsibleGalaxyInterface;
 
     /**
      * Don't download roles listed as dependencies.
-     *
-     * @return AnsibleGalaxyInterface
      */
     public function noDeps(): AnsibleGalaxyInterface;
 }

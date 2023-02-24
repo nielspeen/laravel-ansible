@@ -1,17 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Peen\Ansible\Command;
 
 use InvalidArgumentException;
 
-/**
- * Class AnsiblePlaybook
- *
- * @package Asm\Ansible\Command
- * @author Marc Aschmann <maschmann@gmail.com>
- */
 final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePlaybookInterface
 {
     private bool $hasInventory = false;
@@ -19,9 +11,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
     /**
      * Executes a command process.
      * Returns either exit code or string output if no callback is given.
-     *
-     * @param callable|null $callback
-     * @return integer|string
      */
     public function execute(?callable $callback = null): int|string
     {
@@ -32,9 +21,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * The play to be executed.
-     *
-     * @param string $playbook
-     * @return AnsiblePlaybookInterface
      */
     public function play(string $playbook): AnsiblePlaybookInterface
     {
@@ -45,8 +31,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Ask for SSH password.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function askPass(): AnsiblePlaybookInterface
     {
@@ -57,8 +41,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Ask for su password.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function askSuPass(): AnsiblePlaybookInterface
     {
@@ -69,8 +51,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Ask for sudo password.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function askBecomePass(): AnsiblePlaybookInterface
     {
@@ -81,8 +61,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Ask for vault password.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function askVaultPass(): AnsiblePlaybookInterface
     {
@@ -93,9 +71,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Enable privilege escalation
-     *
-     * @return AnsiblePlaybookInterface
-     * @see http://docs.ansible.com/ansible/become.html
      */
     public function become(): AnsiblePlaybookInterface
     {
@@ -106,9 +81,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Desired sudo user (default=root).
-     *
-     * @param string $user
-     * @return AnsiblePlaybookInterface
      */
     public function becomeUser(string $user = 'root'): AnsiblePlaybookInterface
     {
@@ -119,8 +91,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Don't make any changes; instead, try to predict some of the changes that may occur.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function check(): AnsiblePlaybookInterface
     {
@@ -131,9 +101,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Connection type to use (default=smart).
-     *
-     * @param string $connection
-     * @return AnsiblePlaybookInterface
      */
     public function connection(string $connection = 'smart'): AnsiblePlaybookInterface
     {
@@ -145,8 +112,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
     /**
      * When changing (small) files and templates, show the
      * differences in those files; works great with --check.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function diff(): AnsiblePlaybookInterface
     {
@@ -185,9 +150,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
      * ```php
      * $ansible = new Ansible()->playbook()->extraVars('path=/some/path');
      * ```
-     *
-     * @param string|array $extraVars
-     * @return AnsiblePlaybookInterface
      */
     public function extraVars(string|array $extraVars = ''): AnsiblePlaybookInterface
     {
@@ -220,8 +182,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Run handlers even if a task fails.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function forceHandlers(): AnsiblePlaybookInterface
     {
@@ -232,9 +192,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Specify number of parallel processes to use (default=5).
-     *
-     * @param int $forks
-     * @return AnsiblePlaybookInterface
      */
     public function forks(int $forks = 5): AnsiblePlaybookInterface
     {
@@ -246,8 +203,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Show help message and exit.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function help(): AnsiblePlaybookInterface
     {
@@ -284,9 +239,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Specify inventory host file (default=/etc/ansible/hosts).
-     *
-     * @param string $inventory filename for hosts file
-     * @return AnsiblePlaybookInterface
      */
     public function inventoryFile(string $inventory = '/etc/ansible/hosts'): AnsiblePlaybookInterface
     {
@@ -298,9 +250,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Further limit selected hosts to an additional pattern.
-     *
-     * @param string|array $subset list of hosts
-     * @return AnsiblePlaybookInterface
      */
     public function limit(string|array $subset = ''): AnsiblePlaybookInterface
     {
@@ -312,8 +261,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Outputs a list of matching hosts; does not execute anything else.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function listHosts(): AnsiblePlaybookInterface
     {
@@ -324,8 +271,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * List all tasks that would be executed.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function listTasks(): AnsiblePlaybookInterface
     {
@@ -336,9 +281,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Specify path(s) to module library (default=/usr/share/ansible/).
-     *
-     * @param array $path list of paths for modules
-     * @return AnsiblePlaybookInterface
      */
     public function modulePath(array $path = ['/usr/share/ansible/']): AnsiblePlaybookInterface
     {
@@ -349,9 +291,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Disable cowsay
-     *
-     * @codeCoverageIgnore
-     * @return AnsiblePlaybookInterface
      */
     public function noCows(): AnsiblePlaybookInterface
     {
@@ -362,9 +301,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Enable/Disable Colors
-     *
-     * @param bool $colors
-     * @return AnsiblePlaybookInterface
      */
     public function colors(bool $colors = true): AnsiblePlaybookInterface
     {
@@ -375,8 +311,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Enable/Disable Json Output
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function json(): AnsiblePlaybookInterface
     {
@@ -387,9 +321,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Use this file to authenticate the connection.
-     *
-     * @param string $file private key file
-     * @return AnsiblePlaybookInterface
      */
     public function privateKey(string $file): AnsiblePlaybookInterface
     {
@@ -400,9 +331,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Only run plays and tasks whose tags do not match these values.
-     *
-     * @param string|array $tags list of tags to skip
-     * @return AnsiblePlaybookInterface
      */
     public function skipTags(string|array $tags = ''): AnsiblePlaybookInterface
     {
@@ -414,9 +342,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Start the playbook at the task matching this name.
-     *
-     * @param string $task name of task
-     * @return AnsiblePlaybookInterface
      */
     public function startAtTask(string $task): AnsiblePlaybookInterface
     {
@@ -427,8 +352,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * One-step-at-a-time: confirm each task before running.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function step(): AnsiblePlaybookInterface
     {
@@ -439,8 +362,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Run operations with su.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function su(): AnsiblePlaybookInterface
     {
@@ -451,9 +372,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Run operations with su as this user (default=root).
-     *
-     * @param string $user
-     * @return AnsiblePlaybookInterface
      */
     public function suUser(string $user = 'root'): AnsiblePlaybookInterface
     {
@@ -464,8 +382,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Perform a syntax check on the playbook, but do not execute it.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function syntaxCheck(): AnsiblePlaybookInterface
     {
@@ -476,9 +392,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Only run plays and tasks tagged with these values.
-     *
-     * @param string|array $tags list of tags
-     * @return AnsiblePlaybookInterface
      */
     public function tags(string|array $tags): AnsiblePlaybookInterface
     {
@@ -490,9 +403,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Override the SSH timeout in seconds (default=10).
-     *
-     * @param int $timeout
-     * @return AnsiblePlaybookInterface
      */
     public function timeout(int $timeout = 10): AnsiblePlaybookInterface
     {
@@ -503,9 +413,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Connect as this user.
-     *
-     * @param string $user
-     * @return AnsiblePlaybookInterface
      */
     public function user(string $user): AnsiblePlaybookInterface
     {
@@ -516,9 +423,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Vault password file.
-     *
-     * @param string $file
-     * @return AnsiblePlaybookInterface
      */
     public function vaultPasswordFile(string $file): AnsiblePlaybookInterface
     {
@@ -529,9 +433,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Verbose mode (vvv for more, vvvv to enable connection debugging).
-     *
-     * @param string $verbose
-     * @return AnsiblePlaybookInterface
      */
     public function verbose(string $verbose = 'v'): AnsiblePlaybookInterface
     {
@@ -542,8 +443,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Show program's version number and exit.
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function version(): AnsiblePlaybookInterface
     {
@@ -554,8 +453,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * clear the fact cache
-     *
-     * @return AnsiblePlaybookInterface
      */
     public function flushCache(): AnsiblePlaybookInterface
     {
@@ -566,9 +463,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * the new vault identity to use for rekey
-     *
-     * @param string $vaultId
-     * @return AnsiblePlaybookInterface
      */
     public function newVaultId(string $vaultId): AnsiblePlaybookInterface
     {
@@ -579,9 +473,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * new vault password file for rekey
-     *
-     * @param string $passwordFile
-     * @return AnsiblePlaybookInterface
      */
     public function newVaultPasswordFile(string $passwordFile): AnsiblePlaybookInterface
     {
@@ -592,9 +483,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * specify extra arguments to pass to scp only (e.g. -l)
-     *
-     * @param string|array $scpExtraArgs
-     * @return AnsiblePlaybookInterface
      */
     public function scpExtraArgs(string|array $scpExtraArgs): AnsiblePlaybookInterface
     {
@@ -606,9 +494,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * specify extra arguments to pass to sftp only (e.g. -f, -l)
-     *
-     * @param string|array $sftpExtraArgs
-     * @return AnsiblePlaybookInterface
      */
     public function sftpExtraArgs(string|array $sftpExtraArgs): AnsiblePlaybookInterface
     {
@@ -620,9 +505,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * specify common arguments to pass to sftp/scp/ssh (e.g. ProxyCommand)
-     *
-     * @param string|array $sshArgs
-     * @return AnsiblePlaybookInterface
      */
     public function sshCommonArgs(string|array $sshArgs): AnsiblePlaybookInterface
     {
@@ -634,9 +516,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * specify extra arguments to pass to ssh only (e.g. -R)
-     *
-     * @param string|array $extraArgs
-     * @return AnsiblePlaybookInterface
      */
     public function sshExtraArgs(string|array $extraArgs): AnsiblePlaybookInterface
     {
@@ -648,9 +527,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * the vault identity to use
-     *
-     * @param string $vaultId
-     * @return AnsiblePlaybookInterface
      */
     public function vaultId(string $vaultId): AnsiblePlaybookInterface
     {
@@ -661,9 +537,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
 
     /**
      * Get parameter string which will be used to call ansible.
-     *
-     * @param bool $asArray
-     * @return string|array
      */
     public function getCommandlineArguments(bool $asArray = true): string|array
     {
@@ -703,9 +576,6 @@ final class AnsiblePlaybook extends AbstractAnsibleCommand implements AnsiblePla
     /**
     * Ansible SSH pipelining option
     * https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-pipelining
-    *
-    * @param bool $enable
-    * @return AnsiblePlaybookInterface
     **/
     public function sshPipelining(bool $enable = false): AnsiblePlaybookInterface
     {
