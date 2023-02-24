@@ -10,20 +10,16 @@
 
 namespace Peen\Ansible\Testing;
 
+use Illuminate\Support\Facades\Config;
+use Peen\Ansible\AnsibleServiceProvider;
 use Peen\Ansible\Utils\Env;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase as TestBench;
 
-/**
- * Class AnsibleTestCase
- *
- * @package Asm\Test
- * @author  Marc Aschmann <maschmann@gmail.com>
- */
-abstract class AnsibleTestCase extends TestCase
+abstract class AnsibleTestCase extends TestBench
 {
     protected vfsStreamFile $ansiblePlaybook;
 
@@ -35,7 +31,13 @@ abstract class AnsibleTestCase extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->createProjectStructure();
+
+        Config::set('ansible.instances.default.playbooks_path', $this->getProjectUri());
+        Config::set('ansible.instances.default.playbook_command', $this->getPlaybookUri());
+        Config::set('ansible.instances.default.galaxy_command', $this->getGalaxyUri());
     }
 
     /**
@@ -182,5 +184,17 @@ EOT;
     protected function getSamplesPathFor(string $class): string
     {
         return implode('/', [$this->getSamplesPath(), str_replace('\\', '/', $class)]);
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            AnsibleServiceProvider::class,
+        ];
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        // perform environment setup
     }
 }

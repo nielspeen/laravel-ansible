@@ -28,15 +28,14 @@ abstract class AbstractAnsibleCommand
 
     /**
      * @param ProcessBuilderInterface $processBuilder
-     * @param LoggerInterface|null         $logger
      */
-    public function __construct(ProcessBuilderInterface $processBuilder, LoggerInterface $logger = null)
+    public function __construct(ProcessBuilderInterface $processBuilder)
     {
         $this->processBuilder = $processBuilder;
         $this->options = [];
         $this->parameters = [];
         $this->baseOptions = [];
-        $this->setLogger($logger ?? new NullLogger());
+        $this->setLogger(\Log::getLogger());
     }
 
     /**

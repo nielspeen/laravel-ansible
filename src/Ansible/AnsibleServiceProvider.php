@@ -3,8 +3,6 @@
 namespace Peen\Ansible;
 
 use Illuminate\Support\ServiceProvider;
-use Peen\Ansible\Command\AnsibleGalaxy;
-use Peen\Ansible\Command\AnsiblePlaybook;
 
 class AnsibleServiceProvider extends ServiceProvider
 {
@@ -42,12 +40,8 @@ class AnsibleServiceProvider extends ServiceProvider
             __DIR__.'/../../config/ansible.php', 'ansible'
         );
 
-        $this->app->bind('ansible-playbook', function($app) {
-            return new AnsiblePlaybook();
-        });
-
-        $this->app->bind('ansible-galaxy', function($app) {
-            return new AnsibleGalaxy();
+        $this->app->bind('ansible', function($app) {
+            return new Ansible();
         });
 
     }

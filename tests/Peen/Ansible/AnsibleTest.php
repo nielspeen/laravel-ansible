@@ -1,15 +1,8 @@
 <?php
-/*
- * This file is part of the php-ansible package.
- *
- * (c) Marc Aschmann <maschmann@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace Peen\Ansible;
 
+use Illuminate\Support\Facades\Config;
 use Peen\Ansible\Exception\CommandException;
 use Peen\Ansible\Testing\AnsibleTestCase;
 use org\bovigo\vfs\vfsStream;
@@ -23,11 +16,7 @@ class AnsibleTest extends AnsibleTestCase
      */
     public function testInstance()
     {
-        $ansible = new Ansible(
-            $this->getProjectUri(),
-            $this->getPlaybookUri(),
-            $this->getGalaxyUri()
-        );
+        $ansible = \Peen\Ansible\Facades\Ansible::use('default');
         $this->assertInstanceOf('\Peen\Ansible\Ansible', $ansible, 'Instantiation with given paths');
     }
 
@@ -39,11 +28,10 @@ class AnsibleTest extends AnsibleTestCase
     public function testAnsibleProjectPathNotFoundException()
     {
         $this->expectException(CommandException::class);
-        new Ansible(
-            'xxxxxxxx',
-            $this->getPlaybookUri(),
-            $this->getGalaxyUri()
-        );
+
+        Config::set('ansible.instances.default.playbooks_path', 'xxxxxxxx');
+
+        \Peen\Ansible\Facades\Ansible::use('default');
     }
 
     /**
@@ -54,11 +42,11 @@ class AnsibleTest extends AnsibleTestCase
     public function testAnsibleCommandNotFoundException()
     {
         $this->expectException(CommandException::class);
-        new Ansible(
-            $this->getProjectUri(),
-            '/tmp/ansible-playbook',
-            '/tmp/ansible-galaxy'
-        );
+
+        Config::set('ansible.instances.default.playbook_command', '/tmp/ansible-playbook');
+        Config::set('ansible.instances.default.galaxy_command', '/tmp/ansible-galaxy');
+
+        \Peen\Ansible\Facades\Ansible::use('default');
     }
 
     /**
@@ -87,11 +75,10 @@ class AnsibleTest extends AnsibleTestCase
         $ansiblePlaybook = vfsStream::newFile('ansible-playbook', 600)->at($vfs);
         $ansibleGalaxy = vfsStream::newFile('ansible-galaxy', 444)->at($vfs);
 
-        new Ansible(
-            $this->getProjectUri(),
-            $ansiblePlaybook->url(),
-            $ansibleGalaxy->url()
-        );
+        Config::set('ansible.instances.default.playbook_command', $ansiblePlaybook->url());
+        Config::set('ansible.instances.default.galaxy_command', $ansibleGalaxy->url());
+
+        \Peen\Ansible\Facades\Ansible::use('default');
     }
 
     /**
@@ -103,13 +90,7 @@ class AnsibleTest extends AnsibleTestCase
      */
     public function testPlaybookCommandInstance()
     {
-        $ansible = new Ansible(
-            $this->getProjectUri(),
-            $this->getPlaybookUri(),
-            $this->getGalaxyUri()
-        );
-
-        $playbook = $ansible->playbook();
+        $playbook = \Peen\Ansible\Facades\Ansible::playbook();
 
         $this->assertInstanceOf('\Peen\Ansible\Command\AnsiblePlaybook', $playbook);
     }
@@ -123,14 +104,9 @@ class AnsibleTest extends AnsibleTestCase
      */
     public function testGalaxyCommandInstance()
     {
-        $ansible = new Ansible(
-            $this->getProjectUri(),
-            $this->getPlaybookUri(),
-            $this->getGalaxyUri()
-        );
-
-        $galaxy = $ansible->galaxy();
+        $galaxy = \Peen\Ansible\Facades\Ansible::galaxy();
 
         $this->assertInstanceOf('\Peen\Ansible\Command\AnsibleGalaxy', $galaxy);
     }
+
 }

@@ -33,14 +33,19 @@ final class Ansible implements LoggerAwareInterface
 
     private int $timeout;
 
-    public function __construct(string $ansibleBaseDir, string $playbookCommand = '', string $galaxyCommand = '')
+    public function __construct(string $instance = 'default')
     {
-        $this->ansibleBaseDir = $this->checkDir($ansibleBaseDir);
-        $this->playbookCommand = $this->checkCommand($playbookCommand, 'ansible-playbook');
-        $this->galaxyCommand = $this->checkCommand($galaxyCommand, 'ansible-galaxy');
+        $this->ansibleBaseDir = $this->checkDir(config("ansible.instances.{$instance}.playbooks_path"));
+        $this->playbookCommand = $this->checkCommand(config("ansible.instances.{$instance}.playbook_command"), 'ansible-playbook');
+        $this->galaxyCommand = $this->checkCommand(config("ansible.instances.{$instance}.galaxy_command"), 'ansible-galaxy');
 
         $this->timeout = Ansible::DEFAULT_TIMEOUT;
         $this->logger = new NullLogger();
+    }
+
+    public function use(string $instance) : self
+    {
+        return new static($instance);
     }
 
     /**

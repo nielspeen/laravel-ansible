@@ -4,10 +4,10 @@ namespace Peen\Ansible\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class AnsibleGalaxy extends Facade
+class Ansible extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'ansible-galaxy';
+        return 'ansible';
     }
 }

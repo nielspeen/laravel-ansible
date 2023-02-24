@@ -32,37 +32,13 @@ Laravel Ansible defaults to the **default** instance when none is specified.
 
 ## Usage
 
-First instantiate the base object which works as a factory for the commands.
-Only the first parameter is mandatory, and provides the library with the path to your ansible deployment file structure. 
+Instantiate a playbook by using the Ansible facade:
 
 ```php
-$ansible = new Ansible(
-    '/path/to/ansible/deployment'
-);
+$playbook = Ansible::playbook();
+
+$playbook = Ansible::use('legacy')->playbook();
 ```
-
-Optionally, you can specify the path of your `ansible-playbook` and `ansible-galaxy` commands, just in case they are not in the PATH.
-
-```php
-$ansible = new Ansible(
-    '/path/to/ansible/deployment',
-    '/optional/path/to/command/ansible-playbook',
-    '/optional/path/to/command/ansible-galaxy'
-);
-```
-
-You can also pass any PSR compliant logging class to have further details logged. This is **especially useful to have the actual run command logged**.
-
-```php
-$ansible = new Ansible(
-    '/path/to/ansible/deployment'
-);
-
-// $logger is a PSR-compliant logging implementation (e.g. monolog)
-$ansible->setLogger($logger);
-```
-
-
 
 ### Playbooks
 
@@ -70,8 +46,7 @@ Then you can use the object just like in your previous ansible deployment.
 If you don't specify an inventory file with ```->inventoryFile('filename')```, the wrapper tries to determine one, based on your playbook name: 
 
 ```php
-$ansible
-    ->playbook()
+Ansible::playbook()
     ->play('mydeployment.yml') // based on deployment root 
     ->user('maschmann')
     ->extraVars(['project_release' => 20150514092022])
@@ -85,12 +60,10 @@ This will create following ansible command:
 $ ansible-playbook mydeployment.yml -i mydeployment --user=maschmann --extra-vars="project-release=20150514092022" --limit=test
 ```
 
-
 For the execute command you can use a callback to get real-time output of the command:
 
 ```php
-$ansible
-    ->playbook()
+Ansible::playbook()
     ->play('mydeployment.yml') // based on deployment root 
     ->user('maschmann')
     ->extraVars(['project_release' => 20150514092022])
@@ -108,8 +81,7 @@ If no callback is given, the method will return the ansible-playbook output as a
 You can also pass an external YML/JSON file as extraVars containing a complex data structure to be passed to Ansible:
 
 ```php
-$ansible
-    ->playbook()
+Ansible::playbook()
     ->play('mydeployment.yml') // based on deployment root 
     ->extraVars('/path/to/your/extra/vars/file.yml')
     ->execute();
@@ -118,8 +90,7 @@ $ansible
 You can have a Json output adding json() option that enable 'ANSIBLE_STDOUT_CALLBACK=json' env vars to make a json output in ansible.
 
 ```php
-$ansible
-    ->playbook()
+Ansible::playbook()
     ->json()
     ->play('mydeployment.yml') // based on deployment root 
     ->extraVars('/path/to/your/extra/vars/file.yml')
@@ -132,8 +103,7 @@ The syntax follows ansible's syntax with one deviation: list is a reserved keywo
 therefore I had to rename it to "modulelist()".
 
 ```php
-$ansible
-    ->galaxy()
+Ansible::galaxy()
     ->init('my_role')
     ->initPath('/tmp/my_path') // or default ansible roles path
     ->execute();
@@ -173,33 +143,10 @@ Possible arguments/options:
 Default process timeout is set to 300 seconds. If you need more time to execute your processes: Adjust the timeout :-) 
 
 ```php
-$ansible
-    ->galaxy()
+Ansible::galaxy()
     ->setTimeout(600)
     …
 ```
-
-
-
-## Thank you for your contributions!
-
-thank you for reviewing, bug reporting, suggestions and PRs :-)
-[xabbuh](https://github.com/xabbuh), [emielmolenaar](https://github.com/emielmolenaar), [saverio](https://github.com/saverio), [soupdiver](https://github.com/soupdiver), [linaori](https://github.com/linaori), [paveldanilin](https://github.com/paveldanilin) and many others! 
-
-
-
-## Future features
-
-The Next steps for implementation are:
-
-- improve type handling and structure, due to overall complexity of the playbook at the moment
-- scalar typehints all over the place
-- provide docker support for development
-- move to php8.0 exclusively for the next major release
-- wrapping the library into a bundle -> maybe
-- provide commandline-capabilities -> maybe
-
-
 
 ## License
 
@@ -207,4 +154,5 @@ laravel-ansible is licensed under the MIT license. See the [LICENSE](LICENSE) fo
 
 ## Credits
 
-Based on [php-ansible](https://github.com/maschmann/php-ansible) [v4.0.0](https://github.com/maschmann/php-ansible/tree/v4.0.0) by [Marc Aschmann](https://github.com/maschmann).
+Based on [php-ansible](https://github.com/maschmann/php-ansible) [v4.0.0](https://github.com/maschmann/php-ansible/tree/v4.0.0) by [Marc Aschmann](https://github.com/maschmann),
+who thanks [xabbuh](https://github.com/xabbuh), [emielmolenaar](https://github.com/emielmolenaar), [saverio](https://github.com/saverio), [soupdiver](https://github.com/soupdiver), [linaori](https://github.com/linaori), [paveldanilin](https://github.com/paveldanilin) and many others! 
