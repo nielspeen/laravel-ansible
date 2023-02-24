@@ -5,13 +5,13 @@
       <directory>.</directory>
     </include>
     <exclude>
-      <directory>./Tests</directory>
+      <directory>./tests</directory>
       <directory>./vendor</directory>
     </exclude>
   </coverage>
   <testsuites>
     <testsuite name="php-ansible Test Suite">
-      <directory>./Tests</directory>
+      <directory>./tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
